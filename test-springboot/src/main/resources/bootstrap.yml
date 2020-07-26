@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: test-springboot #cannot get this from @Value from application
