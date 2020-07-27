@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "MST_STUDENT")
@@ -16,8 +18,10 @@ public class StudentEntity {
 	private String studentNo;
 	
 	@Column(length = 100)
+	@NotBlank
 	private String name;
 	
+	@Past
 	private LocalDate dateOfBirth;
 
 	public String getStudentNo() {
