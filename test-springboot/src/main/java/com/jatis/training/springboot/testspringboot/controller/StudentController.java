@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,8 @@ import com.jatis.training.springboot.testspringboot.repository.StudentRepository
 @RequestMapping("/student")
 public class StudentController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+	
 	@Autowired
 	private StudentRepository studentRepo;
 
@@ -44,8 +48,11 @@ public class StudentController {
 	@GetMapping("/{page}/{size}")
 	public Page<StudentEntity> findAll(@PathVariable("page") int page
 			, @PathVariable("size") int size){
+		if (logger.isDebugEnabled()) {
+			logger.debug("Find all students page = " + page +", size = " + size);
+		}
 		return studentRepo.findAll(PageRequest.of(page, size, 
-				Sort.by(Direction.ASC, "name", "studentNo")));
+			Sort.by(Direction.ASC, "name", "studentNo")));
 	}
 	
 	@GetMapping("/{studentNo}")

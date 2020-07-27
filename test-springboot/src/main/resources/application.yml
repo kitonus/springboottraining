@@ -1,6 +1,8 @@
 server:
   port: 8081
   
+logging:  level:    com.jatis.training.springboot: debug
+  
 spring:  jpa:    database: h2    hibernate:      ddl-auto: update  datasource:    url: jdbc:h2:~/test-springboot
     username: test-springboot
     password: P@ssw0rd
