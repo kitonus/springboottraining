@@ -2,6 +2,7 @@ package com.jatis.training.springboot.testspringboot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,15 +21,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		PasswordEncoder passwordEncoder = passwordEncoder();
 		auth.inMemoryAuthentication()
 			.withUser("user1").password(passwordEncoder.encode("P@ssw0rd"))
-			.authorities("ROLE_USER")
+			.roles("USER")
 			.and()
 			.withUser("admin1").password(passwordEncoder.encode("P@ssw0rdAdmin"))
-			.authorities("ROLE_ADMIN");
+			.authorities("ROLE_ADMIN")
+			.and()
+			.withUser("other").password(passwordEncoder.encode("P@ssw0rd"))
+			.authorities("ROLE_OTHER")
+			;
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+			.antMatchers(HttpMethod.GET, "/student/**").hasAuthority("ROLE_USER")
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic()
